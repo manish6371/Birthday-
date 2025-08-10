@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday!</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+        background-size: 800% 800%;
+        animation: bgAnimation 10s ease infinite;
+        color: white;
+        overflow: hidden;
+    }
+
+    @keyframes bgAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+        font-size: 3em;
+        animation: fadeIn 2s ease-in-out, textGlow 1.5s infinite alternate;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes textGlow {
+        from { text-shadow: 0 0 10px #fff; }
+        to { text-shadow: 0 0 20px #ffccff, 0 0 30px #ff99cc; }
+    }
+
+    img {
+        margin-top: 20px;
+        width: 250px;
+        height: auto;
+        border-radius: 15px;
+        border: 4px solid white;
+        animation: fadeIn 3s ease-in-out;
+    }
+
+    audio {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>🎉 Happy Birthday 🎉</h1>
+<!-- Yaha par apni image ka link daal -->
+<img src="images/your_image.jpg" alt="Birthday Image">
+
+<!-- Music ka option (file upload karke naam change kare) -->
+<audio controls autoplay loop>
+  <source src="audio/song.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<script>
+// Confetti animation
+const confettiCanvas = document.getElementById("confetti");
+const ctx = confettiCanvas.getContext("2d");
+confettiCanvas.width = window.innerWidth;
+confettiCanvas.height = window.innerHeight;
+
+let particles = [];
+for (let i = 0; i < 100; i++) {
+    particles.push({
+        x: Math.random() * confettiCanvas.width,
+        y: Math.random() * confettiCanvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 100,
+        color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+        tilt: Math.random() * 10 - 10
+    });
+}
+
+function drawConfetti() {
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+    });
+    update();
+}
+
+function update() {
+    particles.forEach(p => {
+        p.y += Math.cos(p.d) + 1;
+        p.x += Math.sin(p.d);
+        if (p.y > confettiCanvas.height) {
+            p.x = Math.random() * confettiCanvas.width;
+            p.y = -10;
+        }
+    });
+}
+
+setInterval(drawConfetti, 20);
+</script>
+
+</body>
+</html>
